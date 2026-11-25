@@ -7,14 +7,14 @@ on:
     #         - opened
     
      workflow_dispatch:
-        # inputs:
-        #     environment:
-        #         description: "choose an environment"
-        #         required: true
-        #         type: choice
-        #         options:
-        #             - dev
-        #             - test
+        inputs:
+            environment:
+                description: "choose an environment"
+                required: true
+                type: choice
+                options:
+                    - dev
+                    - test
     # schedule: 
     #     - cron: "* * * * *"
 
