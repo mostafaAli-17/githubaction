@@ -10,3 +10,11 @@ jobs:
         steps:
             - name: print-hello
               run: echo "welcome to your first workflows"
+
+    print-welcome:
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: print-welcome
+              run: echo "2nd workflows"
+          
