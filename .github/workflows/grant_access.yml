@@ -37,8 +37,9 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add terraform/users.tfvars.json
           git commit -m "Grant Admin Role access to ${{ steps.extract.outputs.username }}" || echo "No changes to commit"
+          git pull --rebase origin main
           git push
-
+          
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
