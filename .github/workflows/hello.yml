@@ -4,8 +4,8 @@ on:
             - main
         paths:
             - 'src/**'
-        paths-ignore:
-            - 'images/**'    
+        # paths-ignore:
+        #     - 'images/**'    
     # issues:
     #     types:
     #         - opened
