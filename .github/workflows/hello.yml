@@ -1,0 +1,12 @@
+on:
+    push:
+        branshes:
+            - main
+
+jobs:
+    print-hello:
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: print-hello
+              run: echo "welcome to your first workflows"
