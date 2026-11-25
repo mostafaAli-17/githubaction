@@ -1,8 +1,10 @@
 on:
-    push:
-        branshes:
-            - main
-
+    # push:
+    #     branshes:
+    #         - main
+    issues:
+        types:
+            - opened
 jobs:
     print-hello:
         runs-on: ubuntu-latest
@@ -16,5 +18,5 @@ jobs:
         
         steps:
             - name: print-welcome
-              run: echo "2nd workflows"
+              run: echo "dit2nd workflows"
           
