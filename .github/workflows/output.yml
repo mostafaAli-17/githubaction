@@ -21,7 +21,7 @@ jobs:
             - name: dddd
               if : "${{ steps.show-version.outputs.status == 'success' }}"
               run: echo "welcome"
-              
+
 
             - name: dddd
               if : "${{ steps.show-version.outputs.status == 'fail' }}"
@@ -29,10 +29,10 @@ jobs:
 
 
 
-    # env2:
-    #      runs-on: ubuntu-latest      
-    #      needs: env1
-    #      steps: 
-    #         - name: access my docker   
-    #           run: | 
-    #             echo "${{ needs.env1.outputs.status }}"
+    env2:
+         runs-on: ubuntu-latest      
+         needs: env1
+         steps: 
+            - name: access my docker   
+              run: | 
+                echo "${{ needs.env1.outputs.status }}"
