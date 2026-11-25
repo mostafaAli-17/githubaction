@@ -7,7 +7,7 @@ body:
     id: iam_username
     attributes:
       label: AWS IAM Username
-      description: Enter the exact IAM username (e.g., mostafa.ali)
-      placeholder: mostafa.ali
+      description: Enter the exact IAM username (e.g., mostafa)
+      placeholder: mostafa
     validations:
       required: true
