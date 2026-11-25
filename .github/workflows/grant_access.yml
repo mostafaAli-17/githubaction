@@ -1,0 +1,73 @@
+name: Grant AWS Admin Role Access
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+  id-token: write
+
+jobs:
+  update-iam-role:
+    if: contains(github.event.issue.labels.*.name, 'iam-access')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Extract IAM Username from Issue
+        id: extract
+        run: |
+          USERNAME=$(echo "${{ github.event.issue.body }}" | awk '/### AWS IAM Username/{getline; getline; print}' | tr -d '[:space:]')
+          echo "username=$USERNAME" >> $GITHUB_OUTPUT
+          echo "Extracted Username: $USERNAME"
+
+      - name: Update users.tfvars.json
+        run: |
+          USERNAME="${{ steps.extract.outputs.username }}"
+          jq --arg user "$USERNAME" '.allowed_users += [$user] | .allowed_users |= unique' terraform/users.tfvars.json > tmp.json
+          mv tmp.json terraform/users.tfvars.json
+
+      - name: Commit and Push Updated Users List
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add terraform/users.tfvars.json
+          git commit -m "Grant Admin Role access to ${{ steps.extract.outputs.username }}" || echo "No changes to commit"
+          git push
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init & Apply
+        working-directory: ./terraform
+        run: |
+          terraform init
+          terraform apply -var-file="users.tfvars.json" -auto-approve
+
+      - name: Comment and Close Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ User `${{ steps.extract.outputs.username }}` has been successfully added to `GitOps-Admin-Role`.'
+            })
+            github.rest.issues.update({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed'
+            })
