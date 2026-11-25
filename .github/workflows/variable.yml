@@ -1,0 +1,34 @@
+name: how to access variable
+on: 
+    push:
+        branches:
+            - main 
+env:
+     APP_NAME: myapp
+     VERSION: 1.0.0
+jobs: 
+    env1:
+         runs-on: ubuntu-latest
+        #  env:
+        #     APP_NAME: env1
+        #     VERSION: 2.0.0         
+         steps: 
+            - name: pwd
+            #   env:
+            #         APP_NAME: step
+            #         VERSION: 5.0.0               
+              run: |
+                echo "Application name = $APP_NAME"
+                echo "Version = $VERSION"
+              
+
+    env2:
+         runs-on: ubuntu-latest
+        #  env:
+        #     APP_NAME: env2
+        #     VERSION: 3.0.0            
+         steps: 
+            - name: pwd
+              run: |
+                echo "Application name = $APP_NAME"
+                echo "Version = $VERSION" 
