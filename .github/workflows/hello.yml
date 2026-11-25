@@ -6,7 +6,7 @@ on:
             - 'src/**'
         paths-ignore:
             - 'images/**'    
-    # issues:
+    # issue:
     #     types:
     #         - opened
     
@@ -19,8 +19,8 @@ on:
     #             options:
     #                 - dev
     #                 - test
-     schedule: 
-         - cron: "* * * * *"
+    #  schedule: 
+    #      - cron: "* * * * *"
 
 jobs:
     print-hello:
