@@ -2,9 +2,22 @@ on:
     # push:
     #     branshes:
     #         - main
-    issues:
-        types:
-            - opened
+    # issues:
+    #     types:
+    #         - opened
+    
+     workflow_dispatch:
+        # inputs:
+        #     environment:
+        #         description: "choose an environment"
+        #         required: true
+        #         type: choice
+        #         options:
+        #             - dev
+        #             - test
+    # schedule: 
+    #     - cron: "* * * * *"
+
 jobs:
     print-hello:
         runs-on: ubuntu-latest
