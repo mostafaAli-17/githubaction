@@ -9,9 +9,9 @@ env:
 jobs: 
     env1:
          runs-on: ubuntu-latest
-        #  env:
-        #     APP_NAME: env1
-        #     VERSION: 2.0.0         
+         env:
+            APP_NAME: env1
+            VERSION: 2.0.0         
          steps: 
             - name: pwd
             #   env:
@@ -24,9 +24,9 @@ jobs:
 
     env2:
          runs-on: ubuntu-latest
-        #  env:
-        #     APP_NAME: env2
-        #     VERSION: 3.0.0            
+         env:
+            APP_NAME: env2
+            VERSION: 3.0.0            
          steps: 
             - name: pwd
               run: |
