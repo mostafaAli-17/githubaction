@@ -20,14 +20,21 @@ jobs:
 
       - name: Extract IAM Username from Issue
         id: extract
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
-          USERNAME=$(echo "${{ github.event.issue.body }}" | awk '/^### AWS IAM Username/{flag=1; next} /^### /{flag=0} flag' | sed '/^[[:space:]]*$/d' | tr -d '\r\n ' | head -n 1)
+          echo "Raw issue body:"
+          echo "$ISSUE_BODY"
+
+          USERNAME=$(printf "%s\n" "$ISSUE_BODY" | awk '/^### AWS IAM Username/{flag=1; next} /^### /{flag=0} flag' | sed '/^[[:space:]]*$/d' | tr -d '\r\n ' | head -n 1)
+
           if [ -z "$USERNAME" ]; then
             echo "Error: Could not extract IAM username from issue body."
             exit 1
           fi
-            echo "username=$USERNAME" >> $GITHUB_OUTPUT
-            echo "Extracted Username: $USERNAME"
+
+           echo "username=$USERNAME" >> $GITHUB_OUTPUT
+           echo "Extracted Username: $USERNAME"
 
       - name: Update users.tfvars.json
         run: |
