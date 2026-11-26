@@ -81,7 +81,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              state: 'closed'}
-        env:
-          TF_VAR_allowed_users: ${{vars.ALLOWED_USERS }}
-              )
+              state: 'closed'
+              })
