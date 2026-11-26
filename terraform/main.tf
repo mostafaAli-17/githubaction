@@ -32,12 +32,14 @@ data "aws_iam_policy_document" "admin_trust_policy" {
 
     principals {
       type = "AWS"
-      identifiers = length(var.allowed_users) > 0 ? [
-        for user in var.allowed_users : "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/${user}"
-      ] : ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+
+      identifiers = length(var.allowed_users) > 0 ? var.allowed_users : [
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+      ]
     }
   }
 }
+
 
 resource "aws_iam_role" "temp_admin_role" {
   name               = "GitOps-Admin-Role"
